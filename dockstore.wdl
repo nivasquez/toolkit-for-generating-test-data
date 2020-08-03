@@ -1,6 +1,6 @@
 version 1.0
 
-task downSamplingCRAM {
+task downSamplingFile {
   input {
   	File inputFile
   	File referenceFile
@@ -9,7 +9,7 @@ task downSamplingCRAM {
   }
 
   command {
-    # Downsampling and Subsetting data by Samtools
+    # Downsampling and Subsetting data by samtools
     if [ -f ${referenceFile} ]
     then
 	# converting cram to bam
@@ -36,12 +36,12 @@ task downSamplingCRAM {
 }
 
 
-workflow downsampling_File {
+workflow toolkit_for_GTD {
   input {
         File referenceFile
   	File inputFile
   	# Optional input to increase all disk sizes in case of outlier sample with strange size behavior
-	# declare input variable that will help in increase disk size if needed
+	# declare int variable that will help in increase disk size if needed
   	Int? increase_disk_size
 
   }
@@ -55,7 +55,7 @@ workflow downsampling_File {
 
   String inputFileName = basename("${inputFile}")
 
-  call downSamplingCRAM { input: inputFile = inputFile,
+  call downSamplingFile { input: inputFile = inputFile,
                  inputFileName = inputFileName,
                  referenceFile = referenceFile,
                  disk_size = inputFileSize + additional_diskSize

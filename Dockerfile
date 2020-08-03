@@ -17,8 +17,6 @@ RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:openjdk-r/ppa && apt-get update -q && apt-get install -y openjdk-11-jdk
 RUN apt-get install -y wget unzip zip
 RUN apt-get install -y wget build-essential
-RUN apt-get -y install curl
-RUN apt-get -y install git
 
 
 

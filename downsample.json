@@ -1,6 +1,0 @@
-# // for downsampling cram file provide reference file, else leave reference file empty "".
-
-{
-   "downsampling_File.inputFile": "gs://topmed_workflow_testing/topmed_aligner/input_files/NWD119836.0005.recab.cram",
-   "downsampling_File.referenceFile": "gs://topmed_workflow_testing/topmed_variant_caller/reference_files/hg38/hs38DH.fa"
-}
