@@ -104,10 +104,10 @@ Run this statement to run the WDL workflow with the JSON file where inputs are g
     The below is a part of output after execution of above line
     # return exit code
 	exit $rc
-	[2020-08-02 16:04:37,56] [info] BackgroundConfigAsyncJobExecutionActor [[38;5;2me2419e1b[0mdownsampling_File.downSamplingCRAM:NA:1]: job id: 33717
-	[2020-08-02 16:04:37,56] [info] BackgroundConfigAsyncJobExecutionActor [[38;5;2me2419e1b[0mdownsampling_File.downSamplingCRAM:NA:1]: Status change from - to WaitingForReturnCode
-	[2020-08-02 16:07:22,86] [info] BackgroundConfigAsyncJobExecutionActor [[38;5;2me2419e1b[0mdownsampling_File.downSamplingCRAM:NA:1]: Status change from WaitingForReturnCode to Done
-	[2020-08-02 16:07:23,76] [info] WorkflowExecutionActor-e2419e1b-1b1b-488d-be4d-ba2482e8a3f0 [[38;5;2me2419e1b[0m]: Workflow downsampling_File complete. Final Outputs:
+	[2020-08-02 16:04:37,56] [info] BackgroundConfigAsyncJobExecutionActor [[38;5;2me2419e1b[0mtoolkit_for_GTD.downSamplingFile:NA:1]: job id: 33717
+	[2020-08-02 16:04:37,56] [info] BackgroundConfigAsyncJobExecutionActor [[38;5;2me2419e1b[0mtoolkit_for_GTD.downSamplingFile:NA:1]: Status change from - to WaitingForReturnCode
+	[2020-08-02 16:07:22,86] [info] BackgroundConfigAsyncJobExecutionActor [[38;5;2me2419e1b[0mtoolkit_for_GTD.downSamplingFile:NA:1]: Status change from WaitingForReturnCode to Done
+	[2020-08-02 16:07:23,76] [info] WorkflowExecutionActor-e2419e1b-1b1b-488d-be4d-ba2482e8a3f0 [[38;5;2me2419e1b[0m]: Workflow toolkit_for_GTD complete. Final Outputs:
 	{
 	  "toolkit_for_GTD.downSamplingFile.downsampledFile": "/private/var/folders/9b/5gh5_01n6mbfzf8k9zdxrtsw0000gn/T/1596409455707-0/cromwell-executions/toolkit_for_GTD/e2419e1b-1b1b-488d-be4d-ba2482e8a3f0/call-downSamplingFile/execution/downsampled.NWD119836.0005.recab.cram"
 	}
