@@ -1,51 +1,36 @@
 version 1.0
 
-task downSamplingSAMBAM {
+task downSamplingCRAM {
   input {
   	File inputFile
+  	File referenceFile
   	String inputFileName
   	Float disk_size
   }
 
   command {
-    # Downsampling and Subsetting data by samtools	
-    samtools view -bs 35.1 ${inputFile} > downsampled.${inputFileName}
+    # Downsampling and Subsetting data by Samtools
+    if [ -f ${referenceFile} ]
+    then
+	# converting cram to bam
+        samtools view -b ${inputFile} -T ${referenceFile} > ${inputFileName}.bam
+	# downsampling and subsetting the file
+        samtools view -bs 35.1 ${inputFileName}.bam > downsampled.${inputFileName}.bam
+	# converting back to cram file
+        samtools view -C downsampled.${inputFileName}.bam -T ${referenceFile} -o downsampled.${inputFileName}
+    else
+	#downsampling and subsetting the file
+        samtools view -bs 35.1 ${inputFile} > downsampled.${inputFileName}
+    fi
   }
 
   output {
-    File downsampledInputFile = "downsampled.${inputFileName}"
+    File downsampledFile = "downsampled.${inputFileName}"
   }
 
  runtime {
     docker: "quay.io/ibrahimjabarkhel/toolkit-for-generating-test-data:latest"
-    cpu: 1
-    memory: "10 GB"
-    disks: "local-disk " + disk_size + " HDD"
-  }
-}
-task downSamplingCRAM {
-  input {
-  	File inputFile
-  	File referenceFile
-  	String inputCramFileName
-  	Float disk_size
-  }
-
-  command {
-    # Downsampling and Subsetting data by Samtools	
-    samtools view -b ${inputFile} -T ${referenceFile} > ${inputCramFileName}.bam
-    samtools view -bs 35.1 ${inputCramFileName}.bam > downsampled.${inputCramFileName}.bam
-    samtools view -C downsampled.${inputCramFileName}.bam -T ${referenceFile} -o downsampled.${inputCramFileName}.cram
-  }
-
-  output {
-    File downsampledCramFile = "downsampled.${inputCramFileName}.cram"
-  }
-
- runtime {
-    docker: "quay.io/ibrahimjabarkhel/toolkit-for-generating-test-data:latest"
-    cpu: 1
-    memory: "10 GB"
+    memory: "15 GB"
     disks: "local-disk " + disk_size + " HDD"
   }
 }
@@ -53,36 +38,26 @@ task downSamplingCRAM {
 
 workflow downsampling_File {
   input {
-        Boolean isCram
         File referenceFile
   	File inputFile
   	# Optional input to increase all disk sizes in case of outlier sample with strange size behavior
+	# declare input variable that will help in increase disk size if needed
   	Int? increase_disk_size
 
   }
 
-  # Some tasks need wiggle room, and we also need to add a small amount of disk to prevent getting a
-  # Cromwell error from asking for 0 disk when the input is less than 1GB
-  Int additional_disk = select_first([increase_disk_size, 20])
+  # Increase the disk size if the remaining disk size is less than 1 GB
+  Int additional_diskSize = select_first([increase_disk_size, 20])
 
-  # Get the size of the standard reference file
-  Float bam_size = size(inputFile, "GB")
+  # Get the size of the standard input file
+  Float inputFileSize = size(inputFile, "GB")
+
 
   String inputFileName = basename("${inputFile}")
-  if (!isCram) {
-     call downSamplingSAMBAM { input: inputFile = inputFile,
-                    inputFileName = inputFileName,
-                    disk_size = bam_size + additional_disk
-     }
-  }
 
-  String inputCramFileName = basename("${inputFile}", ".cram")
-  if (isCram) {
-     call downSamplingCRAM { input: inputFile = inputFile,
-                    inputCramFileName = inputCramFileName,
-                    referenceFile = referenceFile,
-                    disk_size = bam_size + additional_disk
-     }
+  call downSamplingCRAM { input: inputFile = inputFile,
+                 inputFileName = inputFileName,
+                 referenceFile = referenceFile,
+                 disk_size = inputFileSize + additional_diskSize
   }
-  
 }
