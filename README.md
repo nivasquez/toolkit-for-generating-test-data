@@ -1,6 +1,6 @@
 # toolkit-for-generating-test-data
  
-This toolkit is basically subsetting and downsampling a genomic data so that we can use as a test data. As a developer, we use test data oftenly. It's better to use a section of whole data to test our model because small data is good for quick test. Sometimes, there are very big data's which will take more than a 24 hrs to run on their pipelines. Therefore, its a good way to generate their own small test data.
+This toolkit is basically subsetting and downsampling genomic data so that we can use it as test data. As a developer, we use test data often. It's better to use a section of a whole dataset to test our model because the subsetted data is good for a quick test. Sometimes, large datasets can take more than 24 hrs to run on pipelines. Therefore, this toolkit is a good way to generate our own small test data.
 
 ## Authors
 
@@ -9,13 +9,13 @@ Nicholas Vasquez nivasquez@csumb.edu <br>
 Ash O'farrell aofarrel@ucsc.edu
 
 ## How to run toolkit-for-generating-test-data
-If user doesn't want to build their own toolkit than go to section "Running Workflow with Dockstore CLI"
+If the user doesn't want to build their own toolkit than they can skip to the section "Running Workflow with Dockstore CLI"
 
 ## Creating Own toolkit-for-generating-test-data
 
 ### Pre-requisities <br> 
-Install docker in your local machine, follow this tutorial <a href="https://bioinformatics-core-shared-training.github.io/docker-4-bioinformatics/"> Docker-4-Bioinformatics </a>
-After successful installation of Docker, download the Dockerfile from this repo or copy paste below code in any system editor and save it as Dockerfile (have no extensions).
+Install docker in your local machine, by following this tutorial <a href="https://bioinformatics-core-shared-training.github.io/docker-4-bioinformatics/"> Docker-4-Bioinformatics </a>
+After successful installation of Docker, download the Dockerfile from this repo or copy and paste the code below in any system editor and save it as a Dockerfile (have no extensions. For example, the file should be saved as "dockerfile" instead of "dockerfile.txt" or any other . extension).
 
     #############################################################
     # Dockerfile to build a downsampling tool container for Bam
@@ -60,7 +60,7 @@ After successful installation of Docker, download the Dockerfile from this repo 
     # by default /bin/bash is executed
     CMD ["/bin/bash"]
 
-This Dockerfile is actually installing all dependencies for this toolkit and especially <b>samtools</b> through which we are subsetting and downsampling the files.
+This Dockerfile is installing all dependencies for this toolkit and especially <b>samtools</b> through which we are subsetting and downsampling the files.
 
 ## Building in local machine manually
 Execute this statement in local machine terminal
@@ -78,7 +78,7 @@ Change image name in the wdl file at the runtime section:
     
 ## Understanding of WDL and JSON File
 
-First, this wdl file has task and workflow. The workflow is like a main function which will receiving inputs from the json file. It calls the task downSamplingFile which will downsample and subset the file and save the output in the local machine.
+First, this wdl file has task and workflow. The workflow is like a main function which will receive inputs from the json file. It calls the task "downSamplingFile" which will downsample and subset the file and save the output in the local machine.
 
 ### Update the JSON File
 
@@ -92,12 +92,12 @@ provide the path to your SAM, BAM, or CRAM file location to toolkit_for_GTD.inpu
 
 ## Running workflow with Dockstore CLI
 
-Download the dockstore.wdl and test_input.json files. Open test_input.json file and provide the path to your BAM, SAM or CRAM file. If it's CRAM file than also provide a reference file. To run this workflow with our inputs in json file we need a dockstore CLI. <br>
-Finally, run this workflow with the dockstore CLI. If dockstore is not installed yet. <br>
+Download the dockstore.wdl and test_input.json files. Open test_input.json file and provide the path to your BAM, SAM or CRAM file. If it's a CRAM file then also provide a reference file. To run this workflow with our inputs in json file we need the dockstore CLI. <br>
+Finally, run this workflow with the dockstore CLI. If dockstore is not installed yet: <br>
 Follow this tutorial to install Dockstore CLI <a href="https://dockstore.org/quick-start"> Install Docker </a>. <br>
 After installing successfully Dockstore CLI than open Dockstore CLI or terminal or similar application in your system. Move to the directory where the WDL and JSON file exist. 
 
-Run this statement to run the WDL workflow with the JSON file where inputs are given to generate a test data from it. <br>
+Run this statement to run the WDL workflow with the JSON file where inputs are given to generate test data from it. <br>
 
     $> dockstore tool launch --local-entry dockstore.wdl --json test_input.json
     
